@@ -1,1 +1,55 @@
-X = data.loc[:,['scaled','Study hours','Attendance','health','Internet Access','Region','D/H','Time',"Parent's educated",'class response']] 
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Load data from Excel file
+file_path = '/content/drive/MyDrive/project work/pr2.xlsx'  # Replace with your Excel file path
+#sheet_name = 'Smport pandas heet1'         # Replace with your sheet name if necessary
+data = pd.read_excel(file_path,header=0)
+if 'Result' in data.columns:
+    print(" 'Result' column is present.")
+else:
+    print(" 'Result' column is NOT found.")
+
+# Inspect the data (optional)
+print(data.head())
+scaler = MinMaxScaler()
+data['scaled']= scaler.fit_transform(data[['3rd sem marks']])
+print(data['scaled'])
+
+# Define features (X) and target (y)
+print('-----')
+print(type(data))
+X = data.loc[:,['scaled','Study hours','Attendance','health','Internet Access','Region','D/H','Time',"Parent's educated",'class response']]                 # Replace wth your feature column names
+
+
+y = data.loc[:,"4th sem marks"]                 # Replace with your target column name
+print(X.head(),"\n",y.head())
+#y = y.map({'yes': 1, 'no': 0})
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
+
+# Initialize and train the Linear Regression model
+model = KNeighborsRegressor()
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+for a,b in zip(y_test,y_pred):
+  print(a,b)
+  print("hi")
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+
+
+# Optional: Save predictions to a new Excel file
+##output.to_excel('predictions.xlsx', index=False)
+#print("Predictions saved to 'predictions.xlsx'")

@@ -1,4 +1,6 @@
 scikit-learn
+Scikit-learn version: 1.6.1
+
 
 
 

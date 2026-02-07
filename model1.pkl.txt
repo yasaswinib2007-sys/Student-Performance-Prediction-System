@@ -1,7 +1,0 @@
-import pickle
-
-X = data.loc[:,['scaled','Study hours','Attendance','health','Internet Access','Region','D/H','Time',"Parent's educated",'class response']]
-file_path = 'model1.pkl' # Use a binary extension, not .txt
-
-with open(file_path, 'wb') as f:
-    pickle.dump(X, f)
